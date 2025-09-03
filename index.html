@@ -531,6 +531,8 @@
 const blob = new Blob([lines.join('\n')], { type: 'text/calendar' });
       const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download='cipfa-reminders.ics'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
     };
+    </script>  <!-- CLOSE the main script -->
+
 
     <script>
   // ---- Overall progress (phases + Excel checklist) ----
@@ -546,18 +548,23 @@ const blob = new Blob([lines.join('\n')], { type: 'text/calendar' });
       });
     }
 
-    // 2) Excel skills (support both saved data and current DOM state)
-    const skillKeys = ['vlookup','indexmatch','pivot','sumif','charting'];
-    let totalSkills = skillKeys.length, doneSkills = 0;
-    if (data && data.excelSkills) {
-      skillKeys.forEach(k => { if (data.excelSkills[k]) doneSkills++; });
-    } else {
-      // fallback: look at checkboxes if present
-      skillKeys.forEach(k => {
-        const el = document.querySelector(`[data-skill="${k}"], #skill-${k}`);
-        if (el && (el.checked || el.getAttribute?.('aria-checked') === 'true')) doneSkills++;
-      });
-    }
+ // 2) Excel skills (robust to name changes)
+const skillKeys = (data && data.excelSkills)
+  ? Object.keys(data.excelSkills)
+  : ['VLOOKUP','INDEXMATCH','PivotTables','SUMIF','Charting'];
+
+let doneSkills = 0, totalSkills = skillKeys.length;
+
+if (data && data.excelSkills) {
+  skillKeys.forEach(k => { if (data.excelSkills[k]) doneSkills++; });
+} else {
+  // Fallback: read the checkboxes in the UI (ids should be es_<Key>)
+  skillKeys.forEach(k => {
+    const el = document.getElementById('es_' + k);
+    if (el && el.checked) doneSkills++;
+  });
+}
+
 
     const total = totalTasks + totalSkills;
     const done = doneTasks + doneSkills;
