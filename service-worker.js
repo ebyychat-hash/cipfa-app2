@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cipfa-pwa-v1';
+const CACHE_NAME = 'cipfa-pwa-v2';
 const APP_SHELL = [
   './',
   './index.html',
