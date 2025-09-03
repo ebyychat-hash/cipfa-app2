@@ -41,6 +41,16 @@
     .footer{margin-top:14px;text-align:center;color:var(--muted)}
     .badge{background:#fff1e7;color:#7a3b07;border:1px solid #ffd7bf;border-radius:999px;padding:2px 8px;font-size:12px}
     @media(max-width:800px){.layout{grid-template-columns:1fr} .sidebar{order:2}}
+
+    .overall-wrap{display:flex;align-items:center;gap:.6rem;margin:.5rem 0 1rem}
+.overall-label{font-weight:600;opacity:.9}
+.overall-track{flex:1;max-width:280px;height:8px;border-radius:999px;
+  background:rgba(255,255,255,.16);overflow:hidden}
+.overall-fill{height:100%;background:var(--accent);transition:width .25s ease}
+.overall-pct{min-width:3ch;text-align:right;font-weight:700}
+.overall-count{opacity:.7;font-size:.9rem}
+[data-theme="light"] .overall-track{background:rgba(0,0,0,.08)}
+
   </style>
   <style>
   /* System support for form controls */
@@ -89,6 +99,7 @@
     border:1px solid #2a3a54;
   }
 </style>
+  
 
 </head>
 <body>
@@ -97,6 +108,16 @@
       <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><rect rx='8' width='40' height='40' fill='%23f97316'/><text x='50%' y='55%' font-size='20' fill='white' text-anchor='middle' font-family='Arial' font-weight='700'>C</text></svg>" alt="logo" style="width:40px;height:40px;border-radius:8px;"/>
       <div>
         <h1>CIPFA Trainee Action Plan — Offline PWA</h1>
+        <!-- Overall progress -->
+<div id="overallWrap" class="overall-wrap">
+  <span class="overall-label">Overall</span>
+  <div class="overall-track">
+    <div id="overallFill" class="overall-fill" style="width:0%"></div>
+  </div>
+  <span id="overallPct" class="overall-pct">0%</span>
+  <span id="overallCount" class="overall-count"></span>
+</div>
+
         <div class="muted">Track tasks, study hours, exam progress and set local reminders. <span class="badge">Orange theme</span></div>
       </div>
 
@@ -513,6 +534,67 @@
 const blob = new Blob([lines.join('\n')], { type: 'text/calendar' });
       const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download='cipfa-reminders.ics'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
     };
+
+    <script>
+  // ---- Overall progress (phases + Excel checklist) ----
+  function computeOverallProgress() {
+    // 1) Tasks in all phases
+    let totalTasks = 0, doneTasks = 0;
+    if (data && Array.isArray(data.phases)) {
+      data.phases.forEach(ph => {
+        (ph.tasks || []).forEach(t => {
+          totalTasks++;
+          if (t.completed || t.done) doneTasks++;
+        });
+      });
+    }
+
+    // 2) Excel skills (support both saved data and current DOM state)
+    const skillKeys = ['vlookup','indexmatch','pivot','sumif','charting'];
+    let totalSkills = skillKeys.length, doneSkills = 0;
+    if (data && data.excelSkills) {
+      skillKeys.forEach(k => { if (data.excelSkills[k]) doneSkills++; });
+    } else {
+      // fallback: look at checkboxes if present
+      skillKeys.forEach(k => {
+        const el = document.querySelector(`[data-skill="${k}"], #skill-${k}`);
+        if (el && (el.checked || el.getAttribute?.('aria-checked') === 'true')) doneSkills++;
+      });
+    }
+
+    const total = totalTasks + totalSkills;
+    const done = doneTasks + doneSkills;
+    const pct  = total ? Math.round((done / total) * 100) : 0;
+    return { total, done, pct };
+  }
+
+  function updateOverallUI() {
+    const wrap  = document.getElementById('overallWrap');
+    if (!wrap) return; // in case this block isn't on the page yet
+    const { total, done, pct } = computeOverallProgress();
+    const bar   = document.getElementById('overallFill');
+    const pctEl = document.getElementById('overallPct');
+    const cntEl = document.getElementById('overallCount');
+    if (bar)   bar.style.width = pct + '%';
+    if (pctEl) pctEl.textContent = pct + '%';
+    if (cntEl) cntEl.textContent = `(${done}/${total})`;
+  }
+
+  // Fire after any change (safe, tiny)
+  document.addEventListener('change', updateOverallUI);
+  document.addEventListener('click', (e) => {
+    // many task toggles use click on custom rows; a small delay lets data save first
+    if (e.target.closest('.task') || e.target.closest('.excel-skill')) {
+      setTimeout(updateOverallUI, 0);
+    }
+  });
+
+  // Call once on load (and every render)
+  setTimeout(updateOverallUI, 0);
+
+  // OPTIONAL: if you have a central render() or saveData(), call updateOverallUI() there too.
+</script>
+
   </script>
 
   <!--
