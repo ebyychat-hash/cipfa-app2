@@ -548,22 +548,23 @@ const blob = new Blob([lines.join('\n')], { type: 'text/calendar' });
       });
     }
 
- // 2) Excel skills (robust to name changes)
+// Excel skills portion inside computeOverallProgress()
 const skillKeys = (data && data.excelSkills)
   ? Object.keys(data.excelSkills)
   : ['VLOOKUP','INDEXMATCH','PivotTables','SUMIF','Charting'];
 
-let doneSkills = 0, totalSkills = skillKeys.length;
-
-if (data && data.excelSkills) {
-  skillKeys.forEach(k => { if (data.excelSkills[k]) doneSkills++; });
-} else {
-  // Fallback: read the checkboxes in the UI (ids should be es_<Key>)
-  skillKeys.forEach(k => {
+let doneSkills = 0;
+skillKeys.forEach(k => {
+  if (data && data.excelSkills && data.excelSkills[k]) {
+    doneSkills++;
+  } else {
+    // fallback to checkboxes if data not loaded yet
     const el = document.getElementById('es_' + k);
     if (el && el.checked) doneSkills++;
-  });
-}
+  }
+});
+const totalSkills = skillKeys.length;
+
 
 
     const total = totalTasks + totalSkills;
