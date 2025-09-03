@@ -301,13 +301,11 @@
     const importFile = document.getElementById('importFile');
     const resetBtn = document.getElementById('resetBtn');
     const printBtn = document.getElementById('printBtn');
-
     // PWA install
     const installBtn = document.getElementById('installBtn');
     let deferredPrompt = null;
     window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt = e; installBtn.style.display='inline-block'; });
     installBtn.onclick = async ()=>{ if(!deferredPrompt) return alert('If you do not see an install prompt, open this over HTTPS and try again.'); deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; deferredPrompt = null; };
-
     // Reminders UI
     const remTitle = document.getElementById('remTitle');
     const remWhen = document.getElementById('remWhen');
@@ -317,7 +315,6 @@
     const remList = document.getElementById('remList');
     const testNotifyBtn = document.getElementById('testNotifyBtn');
     const exportICSBtn = document.getElementById('exportICSBtn');
-
     let activePhaseIndex = 0;
 
     // --- Rendering ---
