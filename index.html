@@ -42,6 +42,54 @@
     .badge{background:#fff1e7;color:#7a3b07;border:1px solid #ffd7bf;border-radius:999px;padding:2px 8px;font-size:12px}
     @media(max-width:800px){.layout{grid-template-columns:1fr} .sidebar{order:2}}
   </style>
+  <style>
+  /* System support for form controls */
+  :root { color-scheme: light dark; }
+
+  /* Dark palette (variables) */
+  [data-theme="dark"]{
+    --bg:#0b1220;            /* page background */
+    --accent:#f97316;        /* keep your orange */
+    --muted:#b7c0d0;         /* subtle text */
+  }
+
+  /* Overrides for elements that used fixed colors */
+  [data-theme="dark"] html,
+  [data-theme="dark"] body{
+    background:var(--bg);
+    color:#e6e7ea;
+  }
+  [data-theme="dark"] .panel{
+    background:#0f172a;               /* card surface */
+    box-shadow:none;
+  }
+  [data-theme="dark"] .phase{
+    border:1px solid #253043;
+  }
+  [data-theme="dark"] .phase.active{
+    background:linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0));
+    border-color:#2f3c55;
+  }
+  [data-theme="dark"] .progress{ background:#2a3850; }
+
+  /* inputs/selects */
+  [data-theme="dark"] input[type=text],
+  [data-theme="dark"] input[type=datetime-local],
+  [data-theme="dark"] textarea,
+  [data-theme="dark"] select{
+    background:#0b1526;
+    color:#e6e7ea;
+    border:1px solid #2a3a54;
+  }
+
+  /* badges/pills */
+  [data-theme="dark"] .badge{
+    background:#1e293b;
+    color:#e6e7ea;
+    border:1px solid #2a3a54;
+  }
+</style>
+
 </head>
 <body>
   <div class="app">
@@ -53,6 +101,7 @@
       </div>
 
       <div class="top-actions">
+        <button id="themeToggle" class="pill">Dark</button>
         <button id="installBtn" class="small light" title="Install as app">Install</button>
         <button id="exportBtn" class="small">Export JSON</button>
         <label class="small light" for="importFile" style="cursor:pointer">Import</label>
@@ -522,5 +571,29 @@ const blob = new Blob([lines.join('\n')], { type: 'text/calendar' });
     });
 
   -->
+  <script>
+(() => {
+  const KEY = 'theme';
+  const btn = document.getElementById('themeToggle');
+  const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(KEY, theme);
+    if (btn) btn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+  }
+
+  // on load: use saved theme or system preference
+  apply(localStorage.getItem(KEY) || (prefersDark ? 'dark' : 'light'));
+
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const next = (document.documentElement.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
+      apply(next);
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
