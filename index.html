@@ -238,6 +238,25 @@
       </main>
     </div>
   </div>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js').then(reg => {
+    // Ask for updates in the background
+    setInterval(() => reg.update(), 60 * 60 * 1000); // hourly
+
+    // When a new SW finishes installing, reload to show the update
+    reg.addEventListener('updatefound', () => {
+      const sw = reg.installing;
+      sw && sw.addEventListener('statechange', () => {
+        if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+          // New version available → refresh quietly
+          location.reload();
+        }
+      });
+    });
+  }).catch(console.error);
+}
+</script>
 
   <script>
     // --- Default data (phases/tasks from plan) ---
