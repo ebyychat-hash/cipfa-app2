@@ -1,43 +1,60 @@
-const CACHE_NAME = 'cipfa-pwa-v2';
-const APP_SHELL = [
-  './',
-  './index.html',
-  './manifest.json'
+// service-worker.js
+const CACHE_NAME = 'cipfa-pwa-v6'; // bump this when you ship changes
+const ASSETS = [
+  './index.html',           // offline fallback
+  './manifest.json',
+  './icons/icon-192.png',
+  './icons/icon-512.png'
 ];
 
-self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(APP_SHELL)));
-  self.skipWaiting();
+// Install: precache essentials
+self.addEventListener('install', (event) => {
+  event.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(ASSETS)));
+  self.skipWaiting(); // activate immediately
 });
 
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-    ))
+// Activate: clear old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.map((k) => (k !== CACHE_NAME ? caches.delete(k) : null)))
+    )
   );
   self.clients.claim();
 });
 
-self.addEventListener('fetch', (e) => {
-  const url = new URL(e.request.url);
-  if (e.request.method === 'GET' && url.origin === location.origin) {
-    e.respondWith(
-      caches.match(e.request).then(cached =>
-        cached || fetch(e.request).then(resp => {
-          const copy = resp.clone();
-          caches.open(CACHE_NAME).then(c => c.put(e.request, copy));
-          return resp;
-        })
-      )
-    );
-  }
-});
+// Fetch:
+self.addEventListener('fetch', (event) => {
+  const req = event.request;
 
-// Allow page to request a notification via postMessage
-self.addEventListener('message', (e) => {
-  if (e.data && e.data.type === 'notify' && self.registration && self.registration.showNotification) {
-    const { title, body } = e.data;
-    self.registration.showNotification(title, { body });
+  // 1) Always try NETWORK FIRST for navigations (HTML pages)
+  if (req.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        // no-store ensures we don't read any intermediary caches
+        return await fetch(req, { cache: 'no-store' });
+      } catch (e) {
+        // offline fallback to cached index.html
+        const cached = await caches.match('./index.html');
+        return cached || new Response('<h1>Offline</h1>', { headers: { 'Content-Type': 'text/html' }});
+      }
+    })());
+    return;
+  }
+
+  // 2) For other GETs: Cache, then network (and cache the result)
+  if (req.method === 'GET') {
+    event.respondWith((async () => {
+      const cached = await caches.match(req);
+      if (cached) return cached;
+      try {
+        const res = await fetch(req);
+        const cache = await caches.open(CACHE_NAME);
+        cache.put(req, res.clone());
+        return res;
+      } catch (e) {
+        return cached; // may be undefined; okay
+      }
+    })());
   }
 });
