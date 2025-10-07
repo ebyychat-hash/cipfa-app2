@@ -930,7 +930,7 @@ if ('serviceWorker' in navigator) {
     }
 
     // Theme toggle
-    (() => {
+    (function() {
       const KEY = 'theme';
       const btn = document.getElementById('themeToggle');
       const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
@@ -944,7 +944,7 @@ if ('serviceWorker' in navigator) {
       apply(localStorage.getItem(KEY) || (prefersDark ? 'dark' : 'light'));
 
       if (btn) {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', function() {
           const next = (document.documentElement.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
           apply(next);
         });
