@@ -1,8 +1,11 @@
 {
   "name": "CIPFA Trainee Action Plan",
   "short_name": "CIPFA Plan",
-  "start_url": ".",
+  "description": "Track your CIPFA qualification progress, study hours, and exam preparation",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#fff7ed",
   "theme_color": "#f97316",
   "icons": [
@@ -17,6 +20,19 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Add Study Session",
+      "url": "./index.html?action=study",
+      "description": "Log a new study session"
+    },
+    {
+      "name": "View Progress",
+      "url": "./index.html?action=progress",
+      "description": "Check your overall progress"
     }
   ]
 }
