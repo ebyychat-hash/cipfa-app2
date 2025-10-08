@@ -1,9 +1,12 @@
 <!doctype html>
+<!-- shortened for brevity: user already has index.html from canvas --> 
+<!-- Place the full updated HTML code from the canvas here as index.html -->
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CIPFA Trainee Action Plan – Official Programme Aligned</title>
+ <title> CIPFA Trainee Action Plan — Offline PWA</title>
   <meta name="apple-mobile-web-app-title" content="CIPFA Plan">
   <meta name="theme-color" content="#f97316" />
   <link rel="manifest" href="manifest.json">
@@ -41,16 +44,14 @@
     @media(max-width:800px){.layout{grid-template-columns:1fr} .sidebar{order:2}}
 
     .overall-wrap{display:flex;align-items:center;gap:.6rem;margin:.5rem 0 1rem}
-    .overall-label{font-weight:600;opacity:.9}
-    .overall-track{flex:1;max-width:280px;height:8px;border-radius:999px;
-      background:rgba(255,255,255,.16);overflow:hidden}
-    .overall-fill{height:100%;background:var(--accent);transition:width .25s ease}
-    .overall-pct{min-width:3ch;text-align:right;font-weight:700}
-    .overall-count{opacity:.7;font-size:.9rem}
-    [data-theme="light"] .overall-track{background:rgba(0,0,0,.08)}
+.overall-label{font-weight:600;opacity:.9}
+.overall-track{flex:1;max-width:280px;height:8px;border-radius:999px;
+  background:rgba(255,255,255,.16);overflow:hidden}
+.overall-fill{height:100%;background:var(--accent);transition:width .25s ease}
+.overall-pct{min-width:3ch;text-align:right;font-weight:700}
+.overall-count{opacity:.7;font-size:.9rem}
+[data-theme="light"] .overall-track{background:rgba(0,0,0,.08)}
 
-    .module-badge{background:#e8f4ff;color:#0066cc;border:1px solid #b3d9ff;border-radius:6px;padding:2px 6px;font-size:11px;font-weight:600;margin-left:8px}
-    .difficulty-indicator{font-size:12px;color:#f97316;margin-left:8px}
   </style>
   <style>
   /* System support for form controls */
@@ -58,9 +59,9 @@
 
   /* Dark palette (variables) */
   [data-theme="dark"]{
-    --bg:#0b1220;
-    --accent:#f97316;
-    --muted:#b7c0d0;
+    --bg:#0b1220;            /* page background */
+    --accent:#f97316;        /* keep your orange */
+    --muted:#b7c0d0;         /* subtle text */
   }
 
   /* Overrides for elements that used fixed colors */
@@ -70,7 +71,7 @@
     color:#e6e7ea;
   }
   [data-theme="dark"] .panel{
-    background:#0f172a;
+    background:#0f172a;               /* card surface */
     box-shadow:none;
   }
   [data-theme="dark"] .phase{
@@ -98,28 +99,27 @@
     color:#e6e7ea;
     border:1px solid #2a3a54;
   }
-  [data-theme="dark"] .module-badge{
-    background:#1e293b;
-    color:#60a5fa;
-    border:1px solid #2a3a54;
-  }
 </style>
+  
+
 </head>
 <body>
   <div class="app">
     <header>
       <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><rect rx='8' width='40' height='40' fill='%23f97316'/><text x='50%' y='55%' font-size='20' fill='white' text-anchor='middle' font-family='Arial' font-weight='700'>C</text></svg>" alt="logo" style="width:40px;height:40px;border-radius:8px;"/>
       <div>
-        <h1>CIPFA Trainee Action Plan – Official Programme</h1>
-        <div id="overallWrap" class="overall-wrap">
-          <span class="overall-label">Overall</span>
-          <div class="overall-track">
-            <div id="overallFill" class="overall-fill" style="width:0%"></div>
-          </div>
-          <span id="overallPct" class="overall-pct">0%</span>
-          <span id="overallCount" class="overall-count"></span>
-        </div>
-        <div class="muted">Track CIPFA modules, study hours, exam progress and practical skills. <span class="badge">Aligned to Official Structure</span></div>
+        <h1>CIPFA Trainee Action Plan — Offline PWA</h1>
+        <!-- Overall progress -->
+<div id="overallWrap" class="overall-wrap">
+  <span class="overall-label">Overall</span>
+  <div class="overall-track">
+    <div id="overallFill" class="overall-fill" style="width:0%"></div>
+  </div>
+  <span id="overallPct" class="overall-pct">0%</span>
+  <span id="overallCount" class="overall-count"></span>
+</div>
+
+        <div class="muted">Track tasks, study hours, exam progress and set local reminders. <span class="badge">Orange theme</span></div>
       </div>
 
       <div class="top-actions">
@@ -134,15 +134,15 @@
 
     <div class="layout">
       <aside class="sidebar panel">
-        <h3>CIPFA Modules & Tasks</h3>
+        <h3>Phases & Tasks</h3>
         <div id="phasesList"></div>
 
         <div class="section">
           <h3>Quick add task</h3>
-          <label>Module</label>
+          <label>Phase</label>
           <select id="quickPhase"></select>
           <label>Task title</label>
-          <input id="quickTitle" type="text" placeholder="e.g., Practice trial balance" />
+          <input id="quickTitle" type="text" placeholder="e.g., Practice Excel VLOOKUPs" />
           <div style="margin-top:8px" class="flex"><button id="addTaskBtn" class="small">Add Task</button></div>
         </div>
 
@@ -156,7 +156,7 @@
               <input id="remWhen" type="datetime-local" />
             </div>
             <div>
-              <label>Module (optional)</label>
+              <label>Phase (optional)</label>
               <select id="remPhase"></select>
             </div>
           </div>
@@ -167,14 +167,14 @@
             <button id="testNotifyBtn" class="small light">Test Notification</button>
           </div>
           <div id="remList" class="section"></div>
-          <div class="muted">Note: Local reminders fire when the app is open or recently active.</div>
+          <div class="muted">Note: Local reminders fire when the app is open or recently active. For guaranteed device alerts, export to calendar.</div>
           <div style="margin-top:6px" class="flex">
             <button id="exportICSBtn" class="small light">Export .ics</button>
           </div>
         </div>
 
         <div class="section">
-          <h3>Practical Skills Checklist</h3>
+          <h3>Excel Skills Checklist</h3>
           <div id="excelSkills"></div>
         </div>
       </aside>
@@ -182,12 +182,12 @@
       <main class="panel">
         <div class="main-header">
           <div>
-            <h2 id="phaseTitle">Select a Module</h2>
-            <div class="muted" id="moduleDescription">Click on a module from the left to view tasks and track progress</div>
+            <h2 id="phaseTitle">Phase 1: Core Accounting Fundamentals</h2>
+            <div class="muted">Use this area to view and manage the selected phase.</div>
           </div>
           <div style="margin-left:auto;text-align:right">
             <div class="muted">Progress</div>
-            <div class="progress" title="module progress"><div id="phaseBar" class="bar"></div></div>
+            <div class="progress" title="phase progress"><div id="phaseBar" class="bar"></div></div>
             <div id="phasePercent" class="muted">0%</div>
           </div>
         </div>
@@ -218,7 +218,7 @@
           <div class="grid">
             <div>
               <label>Module</label>
-              <input id="moduleName" type="text" placeholder="Financial Accounting" />
+              <input id="moduleName" type="text" placeholder="Accounting Principles" />
             </div>
             <div>
               <label>Score (%)</label>
@@ -230,24 +230,27 @@
         </div>
 
         <div class="section">
-          <h3>Resources & Notes</h3>
+          <h3>Resources</h3>
           <textarea id="resources" rows="4" placeholder="Add links, notes or reading materials you want to keep"></textarea>
           <div style="margin-top:8px" class="flex"><button id="saveResourcesBtn" class="small">Save Resources</button><button id="printBtn" class="small light">Print</button></div>
         </div>
 
-        <div class="footer">This PWA stores data locally (no server). Use Export to back up. For install: open over HTTPS, then click Install.</div>
+        <div class="footer">This PWA stores data locally (no server). Use Export to back up. For install: open over HTTPS (or GitHub Pages), then click Install in the header.</div>
       </main>
     </div>
   </div>
-
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js').then(reg => {
-    setInterval(() => reg.update(), 60 * 60 * 1000);
+    // Ask for updates in the background
+    setInterval(() => reg.update(), 60 * 60 * 1000); // hourly
+
+    // When a new SW finishes installing, reload to show the update
     reg.addEventListener('updatefound', () => {
       const sw = reg.installing;
       sw && sw.addEventListener('statechange', () => {
         if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+          // New version available → refresh quietly
           location.reload();
         }
       });
@@ -257,212 +260,41 @@ if ('serviceWorker' in navigator) {
 </script>
 
   <script>
-    // --- Default data aligned to CIPFA official structure ---
+    // --- Default data (phases/tasks from plan) ---
     const defaultData = {
-      meta:{title:'CIPFA Trainee Action Plan',version:3,updated:Date.now()},
+      meta:{title:'CIPFA Trainee Action Plan',version:2,updated:Date.now()},
       phases:[
-        // Certificate Level
-        {id:1,title:'Financial Accounting (FA)',
-         diploma:'Certificate',
-         difficulty:'⭐⭐⭐',
-         description:'Basic accounting theory, double-entry bookkeeping, financial statements preparation',
-         tasks:[
-          'Master double-entry bookkeeping principles',
-          'Practice preparing trial balances',
-          'Learn journal entries and adjustments',
-          'Prepare basic financial statements (P&L, Balance Sheet)',
-          'Understand accruals and prepayments',
-          'Study depreciation methods',
-          'Practice bank reconciliations',
-          'Learn accounting for inventory',
-          'Understand ethical financial practices',
-          'Complete CIPFA Ethics e-learning module'
+        {id:1,title:'Phase 1: Core Accounting Fundamentals (Weeks 1-4)',tasks:[
+          'Learn double-entry bookkeeping principles','Practice trial balance and journal entries','Basic financial statements overview','Intro to budgeting & variance analysis','Excel: VLOOKUP, INDEX/MATCH, Pivot tables'
         ]},
-        {id:2,title:'Management Accounting (MA)',
-         diploma:'Certificate',
-         difficulty:'⭐⭐',
-         description:'Costing methods, budgeting, variance analysis, decision-making',
-         tasks:[
-          'Learn costing methods (absorption, marginal, ABC)',
-          'Master budgeting techniques',
-          'Practice standard costing',
-          'Perform variance analysis',
-          'Understand break-even analysis',
-          'Learn cost-volume-profit analysis',
-          'Study decision-making techniques',
-          'Practice relevant costing',
-          'Understand performance measurement',
-          'Apply MA concepts in workplace scenarios'
+        {id:2,title:'Phase 2: Public Sector Finance (Weeks 5-8)',tasks:[
+          'Study CIPFA Code of Practice basics','Understand local authority funding sources','Public sector budgeting cycles','Regulatory environment and external audit'
         ]},
-        
-        // Diploma in Financial Management and Audit
-        {id:3,title:'Audit and Assurance (AA)',
-         diploma:'Diploma FMA',
-         difficulty:'⭐⭐',
-         description:'Audit techniques, ethical standards, regulations, governance',
-         tasks:[
-          'Learn audit planning and risk assessment',
-          'Understand internal control systems',
-          'Practice audit testing procedures',
-          'Study ethical standards and independence',
-          'Learn about regulatory frameworks',
-          'Understand governance practices',
-          'Practice audit documentation',
-          'Study different types of audit opinions',
-          'Learn fraud detection techniques',
-          'Apply audit concepts in workplace'
+        {id:3,title:'Phase 3: System-Specific Training (Weeks 9-12)',tasks:[
+          'Oracle Financials: GL, AP/AR basics','Liquidlogic/ContrOCC overview (if applicable)','SharePoint, Teams & Power BI intro','Month-end and year-end processes'
         ]},
-        {id:4,title:'Business Planning & Financial Management (BPFM)',
-         diploma:'Diploma FMA',
-         difficulty:'⭐⭐⭐',
-         description:'Financial strategies, capital investment, working capital, emerging tech',
-         tasks:[
-          'Master capital investment appraisal (NPV, IRR, Payback)',
-          'Learn discounted cash flow techniques',
-          'Understand working capital management',
-          'Study financial management strategies',
-          'Learn about sources of finance',
-          'Understand financial risk management',
-          'Study emerging technologies (AI, blockchain)',
-          'Practice financial forecasting',
-          'Learn treasury management',
-          'Apply concepts to public sector contexts'
+        {id:4,title:'Phase 4: CIPFA Exam Preparation (Ongoing from Week 6)',tasks:[
+          'Start Certificate Level modules','Practice papers and mock exams','Form/join study groups','Allocate weekly CIPFA study hours (8 hrs/week)'
         ]},
-        {id:5,title:'Developing Strategy & Data Analysis (DSDA)',
-         diploma:'Diploma FMA',
-         difficulty:'⭐⭐⭐',
-         description:'Strategic planning, organisational analysis, data-driven decisions',
-         tasks:[
-          'Learn strategic analysis models (SWOT, PESTEL, Porter)',
-          'Understand stakeholder assessment',
-          'Practice internal/external analysis',
-          'Study data analysis techniques',
-          'Learn data visualization methods',
-          'Understand performance indicators',
-          'Practice case study analysis',
-          'Learn strategic decision-making',
-          'Study change management',
-          'Apply strategic thinking in workplace'
-        ]},
-        
-        // Diploma in Governance, Risk and Taxation
-        {id:6,title:'Business Reporting (BR)',
-         diploma:'Diploma GRT',
-         difficulty:'⭐⭐⭐⭐',
-         description:'Advanced financial reporting, consolidations, sustainability reporting',
-         tasks:[
-          'Master consolidated financial statements',
-          'Learn IFRS standards in depth',
-          'Practice group accounting',
-          'Understand sustainability reporting',
-          'Study integrated reporting',
-          'Learn about financial instruments',
-          'Practice complex adjustments',
-          'Understand reporting for different entities',
-          'Study public sector specific reporting',
-          'Prepare for complex exam scenarios'
-        ]},
-        {id:7,title:'Governance & Risk Management (GRM)',
-         diploma:'Diploma GRT',
-         difficulty:'⭐⭐⭐',
-         description:'Corporate governance, risk frameworks, internal controls, anti-fraud',
-         tasks:[
-          'Study corporate governance structures',
-          'Learn risk management frameworks (COSO, ISO 31000)',
-          'Understand internal control systems',
-          'Practice risk assessment and mapping',
-          'Study anti-fraud practices',
-          'Learn about compliance requirements',
-          'Understand board responsibilities',
-          'Study governance codes and principles',
-          'Learn crisis management',
-          'Apply governance in public sector context'
-        ]},
-        {id:8,title:'Tax and Law (T&L)',
-         diploma:'Diploma GRT',
-         difficulty:'⭐⭐⭐⭐',
-         description:'UK tax legislation, tax calculations, commercial law',
-         tasks:[
-          'Study UK tax system and legislation',
-          'Learn income tax calculations',
-          'Master corporation tax',
-          'Understand VAT regulations',
-          'Study capital gains tax',
-          'Learn employment law basics',
-          'Understand contract law',
-          'Study commercial law principles',
-          'Practice tax computations',
-          'Consider international taxation aspects'
-        ]},
-        
-        // Additional Practical Skills (Non-CIPFA but essential)
-        {id:9,title:'Excel & Digital Skills',
-         diploma:'Practical',
-         difficulty:'⭐⭐',
-         description:'Essential technical skills for modern finance professionals',
-         tasks:[
-          'Master VLOOKUP and HLOOKUP',
-          'Learn INDEX/MATCH functions',
-          'Create and analyze Pivot Tables',
-          'Master SUMIF/SUMIFS/COUNTIF',
-          'Learn data visualization and charting',
-          'Practice financial modeling',
-          'Learn Power Query basics',
-          'Understand Power BI fundamentals',
-          'Master keyboard shortcuts',
-          'Practice automation with macros'
-        ]},
-        {id:10,title:'Public Sector Systems',
-         diploma:'Practical',
-         difficulty:'⭐⭐',
-         description:'Common systems used in public sector finance',
-         tasks:[
-          'Learn Oracle Financials (GL, AP/AR)',
-          'Understand SAP basics if applicable',
-          'Practice with Civica systems',
-          'Learn Unit4 Business World',
-          'Master SharePoint for documentation',
-          'Use Microsoft Teams effectively',
-          'Understand procurement systems',
-          'Learn grant management systems',
-          'Practice month-end procedures',
-          'Understand year-end processes'
+        {id:5,title:'Phase 5: Practical Application (Weeks 8-16)',tasks:[
+          'Invoice processing & reconciliations','Month-end procedures: accruals & prepayments','Prepare working papers and management reports','Explore additional systems (SAP, Civica, Unit4)'
         ]}
       ],
-      excelSkills:{
-        VLOOKUP:false,
-        INDEXMATCH:false,
-        PivotTables:false,
-        SUMIF:false,
-        Charting:false,
-        PowerQuery:false,
-        FinancialModeling:false,
-        Macros:false
-      },
+      excelSkills:{VLOOKUP:false,INDEXMATCH:false,PivotTables:false,SUMIF:false,Charting:false},
       studyLog:[],
       scores:[],
       resources:'',
-      reminders:[]
+      reminders:[] // {id,title,whenISO,phaseIdx,taskId,done}
     };
 
     // --- Persistence helpers ---
-    const STORAGE_KEY = 'cipfaAppData_v3';
+    const STORAGE_KEY = 'cipfaAppData_v2';
     function saveData(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}
     function loadData(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'null')}catch(e){return null}}
 
     // --- Initialize data ---
-    let data = loadData();
-    if (!data || data.meta?.version < 3) {
-      // Migration or fresh install
-      data = JSON.parse(JSON.stringify(defaultData));
-    }
-    
-    // Ensure tasks are objects with id, title, done properties
-    data.phases.forEach(p=>{ 
-      if(typeof p.tasks[0]==='string'){ 
-        p.tasks = p.tasks.map((t,i)=>({id:'p'+p.id+'t'+i,title:t,done:false})) 
-      }
-    });
+    let data = loadData() || JSON.parse(JSON.stringify(defaultData));
+    data.phases.forEach(p=>{ if(typeof p.tasks[0]==='string'){ p.tasks = p.tasks.map((t,i)=>({id:'p'+p.id+'t'+i,title:t,done:false})) }});
 
     // UI bindings
     const phasesList = document.getElementById('phasesList');
@@ -471,7 +303,6 @@ if ('serviceWorker' in navigator) {
     const addTaskBtn = document.getElementById('addTaskBtn');
     const tasksContainer = document.getElementById('tasksContainer');
     const phaseTitle = document.getElementById('phaseTitle');
-    const moduleDescription = document.getElementById('moduleDescription');
     const phaseBar = document.getElementById('phaseBar');
     const phasePercent = document.getElementById('phasePercent');
     const excelSkills = document.getElementById('excelSkills');
@@ -490,7 +321,12 @@ if ('serviceWorker' in navigator) {
     const importFile = document.getElementById('importFile');
     const resetBtn = document.getElementById('resetBtn');
     const printBtn = document.getElementById('printBtn');
+    // PWA install
     const installBtn = document.getElementById('installBtn');
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt = e; installBtn.style.display='inline-block'; });
+    installBtn.onclick = async ()=>{ if(!deferredPrompt) return alert('If you do not see an install prompt, open this over HTTPS and try again.'); deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; deferredPrompt = null; };
+    // Reminders UI
     const remTitle = document.getElementById('remTitle');
     const remWhen = document.getElementById('remWhen');
     const remPhase = document.getElementById('remPhase');
@@ -499,75 +335,21 @@ if ('serviceWorker' in navigator) {
     const remList = document.getElementById('remList');
     const testNotifyBtn = document.getElementById('testNotifyBtn');
     const exportICSBtn = document.getElementById('exportICSBtn');
-    
-    let deferredPrompt = null;
     let activePhaseIndex = 0;
-
-    // PWA install
-    window.addEventListener('beforeinstallprompt', (e)=>{ 
-      e.preventDefault(); 
-      deferredPrompt = e; 
-      installBtn.style.display='inline-block'; 
-    });
-    
-    installBtn.onclick = async ()=>{ 
-      if(!deferredPrompt) return alert('If you do not see an install prompt, open this over HTTPS and try again.'); 
-      deferredPrompt.prompt(); 
-      const { outcome } = await deferredPrompt.userChoice; 
-      deferredPrompt = null; 
-    };
 
     // --- Rendering ---
     function renderPhases(){
       phasesList.innerHTML = '';
       quickPhase.innerHTML = '';
       remPhase.innerHTML = '<option value="">—</option>';
-      
-      let currentDiploma = '';
       data.phases.forEach((p,idx)=>{
-        // Add diploma section header
-        if (p.diploma !== currentDiploma) {
-          currentDiploma = p.diploma;
-          const header = document.createElement('div');
-          header.style.padding = '8px 4px 4px';
-          header.style.fontWeight = '600';
-          header.style.fontSize = '13px';
-          header.style.color = 'var(--muted)';
-          header.style.borderTop = idx > 0 ? '1px solid #f0f0f0' : 'none';
-          header.style.marginTop = idx > 0 ? '8px' : '0';
-          const diplomaMap = {
-            'Certificate': 'CIPFA Certificate Level',
-            'Diploma FMA': 'Diploma: Financial Management & Audit',
-            'Diploma GRT': 'Diploma: Governance, Risk & Taxation',
-            'Practical': 'Practical Skills & Systems'
-          };
-          header.textContent = diplomaMap[p.diploma] || p.diploma;
-          phasesList.appendChild(header);
-        }
-        
         const div = document.createElement('div');
         div.className = 'phase'+(idx===activePhaseIndex? ' active':'');
-        const completedCount = p.tasks.filter(t => t.done).length;
-        div.innerHTML = `
-          <div style="display:flex;align-items:center">
-            <strong>${p.title}</strong>
-            <span class="module-badge">${p.diploma === 'Practical' ? 'Skills' : p.title.match(/\((.*?)\)/)?.[1] || p.title.slice(0,2)}</span>
-            ${p.difficulty ? `<span class="difficulty-indicator">${p.difficulty}</span>` : ''}
-          </div>
-          <div class='muted' style='font-size:12px;margin-top:4px'>${completedCount}/${p.tasks.length} tasks completed</div>
-        `;
+        div.innerHTML = `<strong>${p.title.split('(')[0].trim()}</strong><div class='muted' style='font-size:12px;margin-top:4px'>${p.tasks.length} tasks</div>`;
         div.onclick = ()=>{activePhaseIndex = idx; renderAll();}
         phasesList.appendChild(div);
-        
-        const opt = document.createElement('option'); 
-        opt.value = idx; 
-        opt.textContent = p.title; 
-        quickPhase.appendChild(opt);
-        
-        const opt2 = document.createElement('option'); 
-        opt2.value = idx; 
-        opt2.textContent = p.title; 
-        remPhase.appendChild(opt2);
+        const opt = document.createElement('option'); opt.value = idx; opt.textContent = p.title.split('(')[0].trim(); quickPhase.appendChild(opt);
+        const opt2 = document.createElement('option'); opt2.value = idx; opt2.textContent = p.title.split('(')[0].trim(); remPhase.appendChild(opt2);
       });
       renderRemTasks();
     }
@@ -576,46 +358,35 @@ if ('serviceWorker' in navigator) {
       remTask.innerHTML = '<option value="">—</option>';
       const idx = remPhase.value!=='' ? Number(remPhase.value) : null;
       if(idx===null) return;
-      data.phases[idx].tasks.forEach(t=>{ 
-        const o=document.createElement('option'); 
-        o.value=t.id; 
-        o.textContent=t.title; 
-        remTask.appendChild(o); 
-      });
+      data.phases[idx].tasks.forEach(t=>{ const o=document.createElement('option'); o.value=t.id; o.textContent=t.title; remTask.appendChild(o); });
     }
 
     remPhase.onchange = renderRemTasks;
 
     function renderTasks(){
       const phase = data.phases[activePhaseIndex];
-      phaseTitle.textContent = phase.title + (phase.difficulty ? ' ' + phase.difficulty : '');
-      moduleDescription.textContent = phase.description || 'Track your progress for this module';
-      
-      tasksContainer.innerHTML = '<h3>Module Tasks</h3>';
+      phaseTitle.textContent = phase.title;
+      tasksContainer.innerHTML = '';
       phase.tasks.forEach(t =>{
-        const row = document.createElement('div'); 
-        row.className = 'task';
-        const cb = document.createElement('input'); 
-        cb.type='checkbox'; 
-        cb.checked = !!t.done; 
-        cb.onchange = ()=>{ 
-          t.done = cb.checked; 
-          saveData(); 
-          renderAll(); 
-        };
-        const label = document.createElement('div'); 
-        label.style.flex='1'; 
-        label.innerHTML = `<div style='${t.done ? "text-decoration:line-through;opacity:0.7;" : ""}font-weight:600'>${t.title}</div>`;
-        const del = document.createElement('button'); 
-        del.textContent='Delete'; 
-        del.className='small light'; 
-        del.onclick = ()=>{ 
-          phase.tasks = phase.tasks.filter(x=>x.id!==t.id); 
-          saveData(); 
-          renderAll(); 
-        };
-        row.appendChild(cb); 
-        row.appendChild(label);
+        const row = document.createElement('div'); row.className = 'task';
+        const cb = document.createElement('input'); cb.type='checkbox'; cb.checked = !!t.done; cb.onchange = ()=>{ t.done = cb.checked; saveData(); renderAll(); };
+        const label = document.createElement('div'); label.style.flex='1'; label.innerHTML = `<div style='font-weight:600'>${t.title}</div>`;
+        const del = document.createElement('button'); del.textContent='Delete'; del.className='small light'; del.onclick = ()=>{ phase.tasks = phase.tasks.filter(x=>x.id!==t.id); saveData(); renderAll(); };
+        row.appendChild(cb); row.appendChild(label); row.appendChild(del);
+        tasksContainer.appendChild(row);
+      });
+      const total = phase.tasks.length || 1; const done = phase.tasks.filter(t=>t.done).length; const pct = Math.round((done/total)*100);
+      phaseBar.style.width = pct + '%'; phasePercent.textContent = pct + '%';
+    }
+
+    function renderExcelSkills(){
+      excelSkills.innerHTML = '';
+      for(const k in data.excelSkills){
+        const id = 'es_'+k;
+        const row = document.createElement('div'); row.className='task';
+        const cb = document.createElement('input'); cb.type='checkbox'; cb.id=id; cb.checked = !!data.excelSkills[k]; cb.onchange = ()=>{ data.excelSkills[k] = cb.checked; saveData(); };
+        const label = document.createElement('label'); label.htmlFor = id; label.style.flex='1'; label.innerHTML = `<strong>${k.replace(/([A-Z])/g,' $1').trim()}</strong>`;
+        row.appendChild(cb); row.appendChild(label);
         excelSkills.appendChild(row);
       }
     }
@@ -623,10 +394,7 @@ if ('serviceWorker' in navigator) {
     function renderStudyLog(){
       studyLog.innerHTML = '';
       data.studyLog.slice().reverse().forEach(s=>{
-        const d = document.createElement('div'); 
-        d.style.padding='8px'; 
-        d.style.borderBottom='1px solid #f2f4f7'; 
-        d.innerHTML = `<div style='font-weight:600'>${s.date} — ${s.hours}h</div><div class='muted'>${s.notes||''}</div>`;
+        const d = document.createElement('div'); d.style.padding='8px'; d.style.borderBottom='1px solid #f2f4f7'; d.innerHTML = `<div style='font-weight:600'>${s.date} — ${s.hours}h</div><div class='muted'>${s.notes||''}</div>`;
         studyLog.appendChild(d);
       });
     }
@@ -635,153 +403,70 @@ if ('serviceWorker' in navigator) {
       scoresDiv.innerHTML = '';
       if(data.scores.length===0) scoresDiv.innerHTML = '<div class="muted">No results logged yet</div>';
       data.scores.slice().reverse().forEach(r=>{
-        const d = document.createElement('div'); 
-        d.style.padding='8px'; 
-        d.style.borderBottom='1px solid #f2f4f7'; 
-        const passText = r.score >= 50 ? '✓ Pass' : '✗ Resit needed';
-        const passColor = r.score >= 50 ? '#22c55e' : '#ef4444';
-        d.innerHTML = `<div style='font-weight:700'>${r.module} — ${r.score}% <span style="color:${passColor};font-size:13px;margin-left:8px">${passText}</span></div><div class='muted'>${new Date(r.when).toLocaleString()}</div>`;
+        const d = document.createElement('div'); d.style.padding='8px'; d.style.borderBottom='1px solid #f2f4f7'; d.innerHTML = `<div style='font-weight:700'>${r.module} — ${r.score}%</div><div class='muted'>${new Date(r.when).toLocaleString()}</div>`;
         scoresDiv.appendChild(d);
       });
     }
 
     function renderReminders(){
       remList.innerHTML = '';
-      if(!data.reminders.length){ 
-        remList.innerHTML = '<div class="muted">No reminders yet</div>'; 
-        return; 
-      }
+      if(!data.reminders.length){ remList.innerHTML = '<div class="muted">No reminders yet</div>'; return; }
       data.reminders.sort((a,b)=> new Date(a.whenISO) - new Date(b.whenISO));
       data.reminders.forEach(r=>{
-        const wrap = document.createElement('div'); 
-        wrap.style.padding='8px'; 
-        wrap.style.borderBottom='1px solid #f7f2ee';
+        const wrap = document.createElement('div'); wrap.style.padding='8px'; wrap.style.borderBottom='1px solid #f7f2ee';
         const ts = new Date(r.whenISO);
         const info = `${ts.toLocaleString()} — ${r.title}`;
         wrap.innerHTML = `<div><strong>${info}</strong></div><div class='muted'>${r.taskId? 'Task: '+getTaskTitle(r.taskId):''}</div>`;
-        const row = document.createElement('div'); 
-        row.className='flex'; 
-        row.style.marginTop='6px';
-        const cancel = document.createElement('button'); 
-        cancel.textContent='Delete'; 
-        cancel.className='small light'; 
-        cancel.onclick = ()=>{ 
-          data.reminders = data.reminders.filter(x=>x.id!==r.id); 
-          saveData(); 
-          renderReminders(); 
-        };
-        row.appendChild(cancel); 
-        wrap.appendChild(row); 
-        remList.appendChild(wrap);
+        const row = document.createElement('div'); row.className='flex'; row.style.marginTop='6px';
+        const cancel = document.createElement('button'); cancel.textContent='Delete'; cancel.className='small light'; cancel.onclick = ()=>{ data.reminders = data.reminders.filter(x=>x.id!==r.id); saveData(); renderReminders(); };
+        row.appendChild(cancel); wrap.appendChild(row); remList.appendChild(wrap);
       });
     }
 
     function getTaskTitle(taskId){
-      for(const p of data.phases){ 
-        const t = p.tasks.find(t=>t.id===taskId); 
-        if(t) return t.title; 
-      }
+      for(const p of data.phases){ const t = p.tasks.find(t=>t.id===taskId); if(t) return t.title; }
       return '';
     }
 
-    function renderAll(){ 
-      renderPhases(); 
-      renderTasks(); 
-      renderExcelSkills(); 
-      renderStudyLog(); 
-      renderScores(); 
-      resourcesEl.value = data.resources||''; 
-      renderReminders(); 
-      updateOverallUI();
-    }
+    function renderAll(){ renderPhases(); renderTasks(); renderExcelSkills(); renderStudyLog(); renderScores(); resourcesEl.value = data.resources||''; renderReminders(); }
 
     // --- Actions ---
     addTaskBtn.onclick = ()=>{
       const phaseIdx = Number(quickPhase.value||activePhaseIndex);
-      const title = quickTitle.value.trim(); 
-      if(!title) return alert('Enter a task title');
+      const title = quickTitle.value.trim(); if(!title) return alert('Enter a task title');
       const phase = data.phases[phaseIdx];
-      const id = 'c'+Date.now(); 
-      phase.tasks.push({id,title,done:false}); 
-      quickTitle.value=''; 
-      saveData(); 
-      renderAll();
+      const id = 'c'+Date.now(); phase.tasks.push({id,title,done:false}); quickTitle.value=''; saveData(); renderAll();
     };
 
     addStudyBtn.onclick = ()=>{
-      const date = studyDate.value || new Date().toISOString().slice(0,10); 
-      const hours = parseFloat(studyHours.value)||0; 
-      const notes = studyNotes.value.trim(); 
-      data.studyLog.push({date,hours,notes}); 
-      studyDate.value=''; 
-      studyHours.value=''; 
-      studyNotes.value=''; 
-      saveData(); 
-      renderAll();
+      const date = studyDate.value || new Date().toISOString().slice(0,10); const hours = parseFloat(studyHours.value)||0; const notes = studyNotes.value.trim(); data.studyLog.push({date,hours,notes}); studyDate.value=''; studyHours.value=''; studyNotes.value=''; saveData(); renderAll();
     };
 
     addScoreBtn.onclick = ()=>{
-      const mod = moduleName.value.trim(); 
-      const score = Number(moduleScore.value);
+      const mod = moduleName.value.trim(); const score = Number(moduleScore.value);
       if(!mod || isNaN(score)) return alert('Enter module name and score');
-      data.scores.push({module:mod,score:score,when:Date.now()}); 
-      moduleName.value=''; 
-      moduleScore.value=''; 
-      saveData(); 
-      renderAll();
+      data.scores.push({module:mod,score:score,when:Date.now()}); moduleName.value=''; moduleScore.value=''; saveData(); renderAll();
     };
 
-    saveResourcesBtn.onclick = ()=>{ 
-      data.resources = resourcesEl.value; 
-      saveData(); 
-      alert('Resources saved locally. Use Export to backup.'); 
-    };
+    saveResourcesBtn.onclick = ()=>{ data.resources = resourcesEl.value; saveData(); alert('Resources saved locally. Use Export to backup.'); };
 
     exportBtn.onclick = ()=>{
       const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-      const url = URL.createObjectURL(blob); 
-      const a = document.createElement('a'); 
-      a.href=url; 
-      a.download='cipfa-action-plan-backup.json'; 
-      document.body.appendChild(a); 
-      a.click(); 
-      a.remove(); 
-      URL.revokeObjectURL(url);
+      const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download='cipfa-action-plan-backup.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
     };
 
     importFile.onchange = (e)=>{
-      const f = e.target.files[0]; 
-      if(!f) return; 
-      const reader = new FileReader(); 
-      reader.onload = ()=>{
-        try{ 
-          const imported = JSON.parse(reader.result); 
-          data = imported; 
-          saveData(); 
-          renderAll(); 
-          alert('Imported successfully'); 
-        }catch(err){ 
-          alert('Invalid file'); 
-        }
-      }; 
-      reader.readAsText(f);
+      const f = e.target.files[0]; if(!f) return; const reader = new FileReader(); reader.onload = ()=>{
+        try{ const imported = JSON.parse(reader.result); data = imported; saveData(); renderAll(); alert('Imported successfully'); }catch(err){ alert('Invalid file'); }
+      }; reader.readAsText(f);
     };
 
-    resetBtn.onclick = ()=>{ 
-      if(confirm('Reset all data to defaults? This will erase your saved progress.')){ 
-        localStorage.removeItem(STORAGE_KEY); 
-        location.reload(); 
-      } 
-    };
-    
+    resetBtn.onclick = ()=>{ if(confirm('Reset all data to defaults? This will erase your saved progress.')){ localStorage.removeItem(STORAGE_KEY); location.reload(); } };
     printBtn.onclick = ()=>{ window.print(); };
 
     // --- Notifications & Reminders ---
     async function ensurePermission(){
-      if(!('Notification' in window)) { 
-        alert('Notifications not supported in this browser.'); 
-        return false; 
-      }
+      if(!('Notification' in window)) { alert('Notifications not supported in this browser.'); return false; }
       if(Notification.permission==='granted') return true;
       const res = await Notification.requestPermission();
       return res==='granted';
@@ -799,26 +484,16 @@ if ('serviceWorker' in navigator) {
 
     addRemBtn.onclick = async ()=>{
       if(!(await ensurePermission())) return;
-      const title = remTitle.value.trim(); 
-      if(!title) return alert('Enter a reminder title');
-      const whenISO = remWhen.value; 
-      if(!whenISO) return alert('Pick a date & time');
+      const title = remTitle.value.trim(); if(!title) return alert('Enter a reminder title');
+      const whenISO = remWhen.value; if(!whenISO) return alert('Pick a date & time');
       const phaseIdx = remPhase.value===''? null : Number(remPhase.value);
       const taskId = remTask.value===''? null : remTask.value;
       const id = 'r'+Date.now();
       data.reminders.push({id,title,whenISO,phaseIdx,taskId,done:false});
-      remTitle.value=''; 
-      remWhen.value=''; 
-      remPhase.value=''; 
-      renderRemTasks(); 
-      saveData(); 
-      renderReminders();
+      remTitle.value=''; remWhen.value=''; remPhase.value=''; renderRemTasks(); saveData(); renderReminders();
     };
 
-    testNotifyBtn.onclick = async ()=>{ 
-      if(!(await ensurePermission())) return; 
-      notifyNow('Test reminder','Notifications are working!'); 
-    };
+    testNotifyBtn.onclick = async ()=>{ if(!(await ensurePermission())) return; notifyNow('Test reminder','Notifications are working!'); };
 
     function tickScheduler(){
       const now = Date.now();
@@ -829,14 +504,10 @@ if ('serviceWorker' in navigator) {
         if(due && now >= due){
           const body = r.taskId? `Time for: ${getTaskTitle(r.taskId)}` : 'You have a scheduled reminder.';
           notifyNow(r.title, body);
-          r.done = true; 
-          changed = true;
+          r.done = true; changed = true;
         }
       });
-      if(changed) { 
-        saveData(); 
-        renderReminders(); 
-      }
+      if(changed) { saveData(); renderReminders(); }
     }
 
     setInterval(tickScheduler, 30000); // check every 30s while app is open
@@ -857,14 +528,8 @@ if ('serviceWorker' in navigator) {
 
     // Keyboard shortcuts
     document.addEventListener('keydown',(e)=>{
-      if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='e'){ 
-        e.preventDefault(); 
-        exportBtn.click(); 
-      }
-      if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='i'){ 
-        e.preventDefault(); 
-        importFile.click(); 
-      }
+      if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='e'){ e.preventDefault(); exportBtn.click(); }
+      if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='i'){ e.preventDefault(); importFile.click(); }
     });
 
     // --- .ics export (calendar) ---
@@ -883,105 +548,159 @@ if ('serviceWorker' in navigator) {
         lines.push('END:VEVENT');
       });
       lines.push('END:VCALENDAR');
-      const blob = new Blob([lines.join('\n')], { type: 'text/calendar' });
-      const url = URL.createObjectURL(blob); 
-      const a = document.createElement('a'); 
-      a.href=url; 
-      a.download='cipfa-reminders.ics'; 
-      document.body.appendChild(a); 
-      a.click(); 
-      a.remove(); 
-      URL.revokeObjectURL(url);
+const blob = new Blob([lines.join('\n')], { type: 'text/calendar' });
+      const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download='cipfa-reminders.ics'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
     };
+    </script>  <!-- CLOSE the main script -->
 
-    // ---- Overall progress calculation ----
-    function computeOverallProgress() {
-      let totalTasks = 0, doneTasks = 0;
-      if (data && Array.isArray(data.phases)) {
-        data.phases.forEach(ph => {
-          (ph.tasks || []).forEach(t => {
-            totalTasks++;
-            if (t.done) doneTasks++;
-          });
+
+    <script>
+  // ---- Overall progress (phases + Excel checklist) ----
+  function computeOverallProgress() {
+    // 1) Tasks in all phases
+    let totalTasks = 0, doneTasks = 0;
+    if (data && Array.isArray(data.phases)) {
+      data.phases.forEach(ph => {
+        (ph.tasks || []).forEach(t => {
+          totalTasks++;
+          if (t.completed || t.done) doneTasks++;
         });
-      }
-
-      const skillKeys = Object.keys(data.excelSkills || {});
-      let doneSkills = 0;
-      skillKeys.forEach(k => {
-        if (data.excelSkills[k]) doneSkills++;
       });
-      const totalSkills = skillKeys.length;
-
-      const total = totalTasks + totalSkills;
-      const done = doneTasks + doneSkills;
-      const pct = total ? Math.round((done / total) * 100) : 0;
-      return { total, done, pct };
     }
 
-    function updateOverallUI() {
-      const { total, done, pct } = computeOverallProgress();
-      const bar = document.getElementById('overallFill');
-      const pctEl = document.getElementById('overallPct');
-      const cntEl = document.getElementById('overallCount');
-      if (bar) bar.style.width = pct + '%';
-      if (pctEl) pctEl.textContent = pct + '%';
-      if (cntEl) cntEl.textContent = `(${done}/${total})`;
+// Excel skills portion inside computeOverallProgress()
+const skillKeys = (data && data.excelSkills)
+  ? Object.keys(data.excelSkills)
+  : ['VLOOKUP','INDEXMATCH','PivotTables','SUMIF','Charting'];
+
+let doneSkills = 0;
+skillKeys.forEach(k => {
+  if (data && data.excelSkills && data.excelSkills[k]) {
+    doneSkills++;
+  } else {
+    // fallback to checkboxes if data not loaded yet
+    const el = document.getElementById('es_' + k);
+    if (el && el.checked) doneSkills++;
+  }
+});
+const totalSkills = skillKeys.length;
+
+
+
+    const total = totalTasks + totalSkills;
+    const done = doneTasks + doneSkills;
+    const pct  = total ? Math.round((done / total) * 100) : 0;
+    return { total, done, pct };
+  }
+
+  function updateOverallUI() {
+    const wrap  = document.getElementById('overallWrap');
+    if (!wrap) return; // in case this block isn't on the page yet
+    const { total, done, pct } = computeOverallProgress();
+    const bar   = document.getElementById('overallFill');
+    const pctEl = document.getElementById('overallPct');
+    const cntEl = document.getElementById('overallCount');
+    if (bar)   bar.style.width = pct + '%';
+    if (pctEl) pctEl.textContent = pct + '%';
+    if (cntEl) cntEl.textContent = `(${done}/${total})`;
+  }
+
+  // Fire after any change (safe, tiny)
+  document.addEventListener('change', updateOverallUI);
+  document.addEventListener('click', (e) => {
+    // many task toggles use click on custom rows; a small delay lets data save first
+    if (e.target.closest('.task') || e.target.closest('.excel-skill')) {
+      setTimeout(updateOverallUI, 0);
+    }
+  });
+
+  // Call once on load (and every render)
+  setTimeout(updateOverallUI, 0);
+
+  // OPTIONAL: if you have a central render() or saveData(), call updateOverallUI() there too.
+</script>
+
+
+
+  <!--
+    ================= PWA FILES =================
+    Save the two snippets below as separate files next to this index.html:
+
+    1) manifest.json
+    {
+      "name": "CIPFA Trainee Action Plan",
+      "short_name": "CIPFA Plan",
+      "start_url": ".",
+      "display": "standalone",
+      "background_color": "#fff7ed",
+      "theme_color": "#f97316",
+      "icons": [
+        { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+        { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+      ]
     }
 
-    // Theme toggle
-    (function() {
-      const KEY = 'theme';
-      const btn = document.getElementById('themeToggle');
-      const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+    2) service-worker.js
+    const CACHE_NAME = 'cipfa-pwa-v1';
+    const APP_SHELL = [
+      './',
+      './index.html',
+      './manifest.json'
+    ];
 
-      function apply(theme){
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem(KEY, theme);
-        if (btn) btn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+    self.addEventListener('install', (e)=>{
+      e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(APP_SHELL)));
+      self.skipWaiting();
+    });
+
+    self.addEventListener('activate', (e)=>{
+      e.waitUntil(
+        caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k))))
+      );
+      self.clients.claim();
+    });
+
+    self.addEventListener('fetch', (e)=>{
+      const url = new URL(e.request.url);
+      if(e.request.method==='GET' && (url.origin===location.origin)){
+        e.respondWith(
+          caches.match(e.request).then(cached=>cached||fetch(e.request).then(resp=>{
+            const copy = resp.clone(); caches.open(CACHE_NAME).then(c=>c.put(e.request, copy)); return resp; }))
+        );
       }
+    });
 
-      apply(localStorage.getItem(KEY) || (prefersDark ? 'dark' : 'light'));
-
-      if (btn) {
-        btn.addEventListener('click', function() {
-          const next = (document.documentElement.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
-          apply(next);
-        });
+    // Allow page to request a notification via postMessage
+    self.addEventListener('message', (e)=>{
+      if(e.data && e.data.type==='notify' && self.registration && self.registration.showNotification){
+        const { title, body } = e.data; self.registration.showNotification(title,{ body });
       }
-    })();
-  </script>
+    });
+
+  -->
+  <script>
+(() => {
+  const KEY = 'theme';
+  const btn = document.getElementById('themeToggle');
+  const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(KEY, theme);
+    if (btn) btn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+  }
+
+  // on load: use saved theme or system preference
+  apply(localStorage.getItem(KEY) || (prefersDark ? 'dark' : 'light'));
+
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const next = (document.documentElement.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
+      apply(next);
+    });
+  }
+})();
+</script>
+
 </body>
-</html>d(cb); 
-        row.appendChild(label); 
-        row.appendChild(del);
-        tasksContainer.appendChild(row);
-      });
-      
-      const total = phase.tasks.length || 1; 
-      const done = phase.tasks.filter(t=>t.done).length; 
-      const pct = Math.round((done/total)*100);
-      phaseBar.style.width = pct + '%'; 
-      phasePercent.textContent = pct + '%';
-    }
-
-    function renderExcelSkills(){
-      excelSkills.innerHTML = '<div style="margin-bottom:8px;font-weight:600">Excel & Technical Skills</div>';
-      for(const k in data.excelSkills){
-        const id = 'es_'+k;
-        const row = document.createElement('div'); 
-        row.className='task';
-        const cb = document.createElement('input'); 
-        cb.type='checkbox'; 
-        cb.id=id; 
-        cb.checked = !!data.excelSkills[k]; 
-        cb.onchange = ()=>{ 
-          data.excelSkills[k] = cb.checked; 
-          saveData(); 
-          updateOverallUI();
-        };
-        const label = document.createElement('label'); 
-        label.htmlFor = id; 
-        label.style.flex='1'; 
-        label.innerHTML = `<strong>${k.replace(/([A-Z])/g,' $1').trim()}</strong>`;
-        row.appendChil
+</html>
